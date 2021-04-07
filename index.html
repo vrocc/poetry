@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日诗词</title>
+
+    <style>
+        .typed-cursor {
+            font-size: 30px;
+        }
+
+        .element i {
+            font-style: normal;
+        }
+
+        .element i.content {
+            font-size: 30px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        .element i.title {
+            font-size: 15px;
+        }
+
+        .element i.author {
+            font-size: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <span class="element" style="white-space: pre-wrap;line-height: 50px;"></span>
+    <span class="content"></span>
+    <span class="title"></span>
+    <span class="author"></span>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/typed.js/2.0.9/typed.min.js"></script>
+    <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        setInterval(function () {
+            var fontSizeStr = $('.element :last-child').css('font-size');
+            $('.typed-cursor').css('font-size', fontSizeStr);
+        }, 10)
+        var biz = function () {
+            jinrishici.load(function (result) {
+                var content = result.data.content;
+                var title = result.data.origin.title;
+                var author = result.data.origin.author;
+                var l = (content + title + author).length;
+                // 自己的处理逻辑
+                var elementTyped = new Typed('.element', {
+                    strings: ["<i class='content'>" + content + "</i>\n<i class='title'>" + title + " </i><i class='author'>" + author + "</i>", ""], //输入内容, 支持html标签
+                    typeSpeed: 120, //打字速度
+                    backSpeed: 50, //回退速度
+                    backDelay: 5 * 1000,
+                    cursorChar: '▍',
+                    onComplete: (self) => {
+                        // self.reset();
+                    },
+                });
+
+                setTimeout(function () {
+                    elementTyped.destroy();
+                    biz();
+                }, l * 120 + l * 30 + 9 * 1000)
+            });
+
+        }
+        biz();
+
+
+    </script>
+</body>
+
+</html>
